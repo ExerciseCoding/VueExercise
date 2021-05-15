@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="example-1">
+    <button @click="counter += 1">ADD 1</button>
+    <p>The button above has been clicked {{ counter }} times.</p>
+</div>
+
+<div id="example-2">
+    <button @click="greet">ADD 1</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var app5 = new Vue({
+        el: '#example-1',
+        data: {
+            counter:0
+        }
+
+    })
+
+    //时间处理方法
+    var example2 = new Vue({
+        el: '#example-2',
+        data: {
+            name: 'vue.js'
+        },
+        methods: {
+            greet: function (event) {
+                alert("hello"+this.name+"!")
+                if(event){
+                    alert(event.target.tagName)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
