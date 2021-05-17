@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <navigation-link url="www.baidu.com">
+        <span clas="fa fa-user">ii</span>
+        Your Profile {{name}}
+    </navigation-link>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+    Vue.component("navigation-link",{
+        data: function () {
+            return {name:"zhangsan"}
+        },
+        template: `<a v-bind:href="url" class="nav-link" > <slot></slot> </a>`,
+    })
+
+    var vm = Vue({
+        el: "#app",
+        data:{
+            name:"zhangsan",
+        }
+    })
+
+
+</script>
+</body>
+</html>
