@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<div id="app">
+    {{message}} {{message + message}}
+    <div :id="message"></div>
+    <!--    <ul>-->
+    <!--        <todo-item v-for="item in list" :title="item.title" :del="item.del"></todo-item>-->
+    <!--    </ul>-->
+    <todo-list>
+        <todo-item @delete="handleDelete" v-for="item in list" :title="item.title" :del="item.del">
+            <!-- 2.5版本之前的写法-->
+            <!--            <span slot="pre-icon">前置图标</span>-->
+            <!--            <span slot="suf-icon">后置图标</span>-->
+            <!-- 新的写法-->
+            <!--            <template v-slot:pre-icon>-->
+            <!--                <span>前置图标</span>-->
+            <!--            </template>-->
+
+            <!--            <template v-slot:suf-icon>-->
+            <!--                <span>后置图标</span>-->
+            <!--            </template>-->
+
+            <!--传值-->
+            <template v-slot:pre-icon="{value}">
+                <span>前置图标 {{value}}</span>
+            </template>
+
+            <template v-slot:suf-icon>
+                <span>后置图标</span>
+            </template>
+
+
+        </todo-item>
+    </todo-list>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('todo-item',{
+        props: {
+            title: String,
+            del: {
+                type: Boolean,
+                default: false,
+            },
+        },
+
+        template:
+            //<!--哈哈是默认值-->
+            `
+            <li>
+                <slot name="pre-icon" :value="value"></slot>
+                <span v-if="!del">{{title}}</span>
+                <span v-else style="text-decoration:line-through">{{title}}</span>
+                <button v-show="!del" @click="handleClick">删除</button>
+                <slot name="suf-icon">😄</slot>
+            </li>
+            `,
+        data: function () {
+            return {
+                value: Math.random()
+            }
+        },
+        methods: {
+
+        },
+    })
+
+    Vue.component("todo-list",{
+        template:
+            `
+        <ul>
+            <slot></slot>
+        </ul>
+        `,
+        data: function () {
+            return {
+
+            }
+        },
+
+        methods: {
+            handleDelete(val){
+                console.log("handlerDelete",val)
+            }
+        }
+    })
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'hello world',
+            list:[
+                {
+                    title: "课程1",
+                    del: false
+                },
+                {
+                    title: "课程2",
+                    del: true
+                }
+            ],
+
+        },
+        methods: {
+            handleClick(){
+                console.log("点击了删除按钮")
+                this.$emit("delete",this.title)
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
